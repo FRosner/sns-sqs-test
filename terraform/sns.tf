@@ -5,10 +5,10 @@ resource "aws_sns_topic" "upload" {
 resource "aws_sns_topic_policy" "upload" {
   arn = "${aws_sns_topic.upload.arn}"
 
-  policy = "${data.aws_iam_policy_document.upload.json}"
+  policy = "${data.aws_iam_policy_document.sns_upload.json}"
 }
 
-data "aws_iam_policy_document" "upload" {
+data "aws_iam_policy_document" "sns_upload" {
   policy_id = "__default_policy_ID"
 
   statement {
