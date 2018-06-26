@@ -39,6 +39,16 @@ resource "aws_iam_user_policy" "upload" {
 EOF
 }
 
+resource "aws_s3_bucket_notification" "upload" {
+  bucket = "${aws_s3_bucket.upload.id}"
+
+  topic {
+    topic_arn     = "${aws_sns_topic.upload.arn}"
+    events        = ["s3:ObjectCreated:*"]
+    filter_suffix = ".jpeg"
+  }
+}
+
 output "upload_user_access_key" {
   value = "${aws_iam_access_key.upload.id}"
 }
