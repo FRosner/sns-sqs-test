@@ -1,6 +1,12 @@
 ## Usage
 
-### Deployment
+### Build
+
+```bash
+sbt assembly
+```
+
+### Deploy
 
 ```bash
 cd terraform
