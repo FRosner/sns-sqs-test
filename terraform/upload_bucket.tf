@@ -5,6 +5,7 @@ variable "aws_s3_bucket_upload_name" {
 resource "aws_s3_bucket" "upload" {
   bucket = "${var.aws_s3_bucket_upload_name}"
   acl    = "public-read"
+  force_destroy = true
 }
 
 resource "aws_iam_access_key" "upload" {
