@@ -28,16 +28,22 @@ class Handler extends RequestStreamHandler {
     val out = new PrintStream(output)
     val processingResult = for {
       notification <- decode[Notification](inputJsonString)
-      message <- decode[Message](notification.Message)
+      message <- notification.Records.headOption
+        .map(n => decode[Message](n.Sns.Message))
+        .getOrElse(Right(Message(Seq.empty)))
     } yield {
       logger.log(s"Decoded notification: $notification")
       logger.log(s"Decoded message: $message")
       implicit val backend = HttpURLConnectionBackend()
+      val text = notification.Records.headOption
+        .map { n =>
+          Handler.notificationText(n.Sns, message)
+        }
+        .getOrElse("Something happened but I can't figure out what.")
       sttp
         .post(Uri(java.net.URI.create(hookUrl)))
         .contentType("application/json")
-        .body(
-          SlackMessage(Handler.notificationText(notification, message)).asJson.noSpaces)
+        .body(SlackMessage(text).asJson.noSpaces)
         .send()
     }
     processingResult match {
@@ -50,7 +56,7 @@ class Handler extends RequestStreamHandler {
 }
 
 object Handler {
-  def notificationText(notification: Notification, message: Message): String = {
+  def notificationText(notification: SnsRecord, message: Message): String = {
     val body = message.Records.headOption
       .map { r =>
         s"Someone uploaded ${r.s3.`object`.key} to ${r.s3.bucket.name}."
