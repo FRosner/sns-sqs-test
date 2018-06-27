@@ -9,13 +9,11 @@ resource "aws_sns_topic_policy" "upload" {
 }
 
 data "aws_iam_policy_document" "sns_upload" {
-  policy_id = "__default_policy_ID"
-
+  policy_id = "snssqssns"
   statement {
     actions = [
       "SNS:Publish",
     ]
-
     condition {
       test = "ArnLike"
       variable = "aws:SourceArn"
@@ -24,19 +22,15 @@ data "aws_iam_policy_document" "sns_upload" {
         "arn:aws:s3:::${var.aws_s3_bucket_upload_name}",
       ]
     }
-
     effect = "Allow"
-
     principals {
       type = "AWS"
       identifiers = [
         "*"]
     }
-
     resources = [
       "${aws_sns_topic.upload.arn}",
     ]
-
-    sid = "__default_statement_ID"
+    sid = "snssqssnss3upload"
   }
 }
