@@ -49,13 +49,3 @@ resource "aws_s3_bucket_notification" "upload" {
     filter_suffix = ".jpeg"
   }
 }
-
-output "upload_user_access_key" {
-  value = "${aws_iam_access_key.upload.id}"
-}
-
-# you should use encrypted_secret + pgp_key here
-# otherwise your secret ends up unencrypted in the state file
-output "upload_user_secret_key" {
-  value = "${aws_iam_access_key.upload.secret}"
-}
