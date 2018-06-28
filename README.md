@@ -2,6 +2,8 @@
 
 Showcase on synchronous and asynchronous event processing using AWS SNS, AWS SQS and AWS Lambda.
 
+![notification](https://user-images.githubusercontent.com/3427394/41991790-023da6e6-7a47-11e8-957b-9990c3683eed.gif)
+
 To run this demo, please build the artifacts first, then deploy the infrastructure.
 
 ## Build
@@ -28,10 +30,3 @@ terraform apply
    ```
 - Receive Slack notification.
    ![notification](https://user-images.githubusercontent.com/3427394/41969768-c61a6a7a-7a08-11e8-9352-83f0e1f1bd63.png)
-
-## Demo
-
-![notification](https://user-images.githubusercontent.com/3427394/41991790-023da6e6-7a47-11e8-957b-9990c3683eed.gif)
-
- 
-
