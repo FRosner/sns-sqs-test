@@ -8,38 +8,6 @@ resource "aws_s3_bucket" "upload" {
   force_destroy = true
 }
 
-resource "aws_iam_access_key" "upload" {
-  user    = "${aws_iam_user.upload.name}"
-}
-
-resource "aws_iam_user" "upload" {
-  name = "sns-sqs-upload"
-  path = "/system/"
-}
-
-resource "aws_iam_user_policy" "upload" {
-  name = "sns-sqs-test"
-  user = "${aws_iam_user.upload.name}"
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:PutObject",
-                "s3:PutObjectAcl"
-            ],
-            "Resource": [
-                "arn:aws:s3:::${aws_s3_bucket.upload.bucket}/*"
-            ]
-        }
-    ]
-}
-EOF
-}
-
 resource "aws_s3_bucket_notification" "upload" {
   bucket = "${aws_s3_bucket.upload.id}"
 
